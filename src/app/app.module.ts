@@ -5,18 +5,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StartPageComponent } from './components/start-page/start-page.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
-import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './shared/table/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     StartPageComponent,
-    MainPageComponent
+    MainPageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

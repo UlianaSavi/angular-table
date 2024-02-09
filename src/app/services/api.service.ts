@@ -10,7 +10,7 @@ import { FAKE_URL } from 'src/constants';
 export class ApiService {
   constructor(private http: HttpClient) { }
 
-  public getData(): Observable<IData> {
-    return this.http.get<IData>(FAKE_URL);
+  public getData(): Observable<IData[]> {
+    return this.http.get<IData[]>(FAKE_URL);
   }
 }

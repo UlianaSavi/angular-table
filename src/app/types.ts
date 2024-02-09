@@ -14,3 +14,15 @@ export interface IData {
     tags: string[],
     favoriteFruit: string
 }
+export interface IRowsToShow {
+    isActive: boolean,
+    balance: boolean,
+    picture: boolean,
+    age: boolean,
+    name: boolean,
+    company: boolean,
+    email: boolean,
+    address: boolean,
+    tags: boolean,
+    favoriteFruit: boolean
+}

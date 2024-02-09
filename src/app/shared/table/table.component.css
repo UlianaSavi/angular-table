@@ -1,0 +1,35 @@
+.table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px;
+}
+
+.table-header {
+  width: 100%;
+}
+
+.table-body {
+  display: flex;
+  flex-direction: column;
+  width: 99%;
+  border: 1px solid var(--lite-grey);
+  overflow: scroll;
+}
+
+.table-body__row{
+  display: flex;
+}
+
+.table-body__row__cell {
+  width: 200px;
+  min-width: 200px;
+  border-right: 1px solid var(--lite-grey);
+  border-bottom: 1px solid var(--lite-grey);
+  padding: 10px;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+.title {
+  margin: 0;
+}
