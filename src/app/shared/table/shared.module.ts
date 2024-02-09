@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
-    TableComponent
+    TableComponent,
   ],
   imports: [
     CommonModule,

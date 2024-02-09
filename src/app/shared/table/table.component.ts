@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { IData, IRowsToShow } from 'src/app/types';
+import { IData } from 'src/app/types';
+import { TableSettings } from '../../services/table-settings.service';
 
 @Component({
   selector: 'app-table',
@@ -8,25 +9,12 @@ import { IData, IRowsToShow } from 'src/app/types';
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
-  constructor (private apiService: ApiService) {}
+  constructor (private apiService: ApiService, private tableSettings: TableSettings) {}
 
   public data: IData[] | null = null;
-  public shownRows: IRowsToShow = {
-    isActive: false,
-    balance: true,
-    picture: false,
-    age: false,
-    name: false,
-    company: false,
-    email: false,
-    address: false,
-    tags: false,
-    favoriteFruit: false,
-  };
-
   public ngOnInit() {
     this.apiService.getData().subscribe((data) => {
-      this.data = data;
+      this.data = this.tableSettings.filterByShownConfig(data);
       console.log('DATA: ', this.data);
     });
   }

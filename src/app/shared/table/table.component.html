@@ -1,16 +1,15 @@
 <div class="table container">
   <div class="table-header">
     <h4 class="title">Table</h4>
+    <div class="table-header__names">
+      <!-- TODO: тут должны браться имена из shownRows и сетится в цикле -->
+    </div>
   </div>
   <div class="table-body">
     <div class="table-body__row" *ngFor="let item of data">
       <div class="table-body__row__cell" *ngFor="let row of item | keyvalue">
         <i>{{ row.value }}</i>
       </div>
-      <!-- <div *ngFor="let seil of shownRows | keyvalue">
-        <div *ngIf="seil.value">
-          <i>{{ item }}</i>:<i>{{ item[seil.key] }}</i>
-        </div> -->
     </div>
   </div>
 </div>
