@@ -14,9 +14,12 @@ export class TableComponent implements OnInit {
   constructor (private apiService: ApiService, private tableSettingsServise: TableSettingsService) {}
 
   public data: IData[] | null = null;
-  public currSortType = SortTypes.DEFAULT;
-  public sortTypes = SortTypes;
   public initialData: IData[] | null = null;
+  private dataWithoutSort: IData[] | null = null;
+
+  public currSortType = SortTypes.DEFAULT;
+  public currSortColumn: string | null = null;
+  public sortTypes = SortTypes;
   public shownColumnNames: IRowsToShow | null = null;
   public pageGoForm: FormGroup = new FormGroup({
     itemsPerPage: new FormControl(START_TABLE_PAGE, [
@@ -50,6 +53,10 @@ export class TableComponent implements OnInit {
   }
 
   public sort(name: string) {
+    this.currSortColumn = name;
+    if (!this.dataWithoutSort) {
+      this.dataWithoutSort = structuredClone(this.data)
+    }
     let type = this.currSortType;
     switch (this.currSortType) {
       case this.sortTypes.DEFAULT:
@@ -63,7 +70,11 @@ export class TableComponent implements OnInit {
         break;
     }
     this.currSortType = type;
-    if (this.data) {
+    if (this.data && this.dataWithoutSort) {
+      if (type === this.sortTypes.DEFAULT) {
+        this.data = structuredClone(this.tableSettingsServise.sort(this.dataWithoutSort, name, type));
+        return;
+      }
       this.tableSettingsServise.sort(this.data, name, type);
     }
   }

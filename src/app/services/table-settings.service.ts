@@ -44,6 +44,9 @@ export class TableSettingsService {
   }
 
   public sort(data: IData[], field: string, type: SortTypes): IData[] {
+    if (type === SortTypes.DEFAULT) {
+      return data;
+    }
     const i = field as keyof IData;
     if(type === SortTypes.DESC) {
       data.sort((a, b) => (a[i] > b[i] ? -1 : 1))

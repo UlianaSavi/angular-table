@@ -15,7 +15,7 @@
       <div class="table__names" *ngFor="let name of shownColumnNames | keyvalue">
         <div class="table__names__inner">
           <button class="table__names__text" (click)="sort(name.key)" *ngIf="name.value">{{ name.key | uppercase }}</button>
-          <div class="table__names__arrow" [ngClass]="currSortType">&nbsp;&#5169;</div>
+          <div *ngIf="currSortColumn === name.key" class="table__names__arrow" [ngClass]="currSortType">&nbsp;&#5169;</div>
           <input
             class="table__names__input"
             type="text"
