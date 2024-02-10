@@ -5,6 +5,7 @@ import { IData, IRowsToShow } from "../types";
   providedIn: 'root'
 })
 export class TableSettingsService {
+  // TODO: отсортировать финальный обьект, чтобы сперва к примеру шел name и тд. И пусть это зависит от последоватльности в shownColumns
   public shownColumns: IRowsToShow = {
     isActive: true,
     balance: true,
@@ -25,6 +26,7 @@ export class TableSettingsService {
         showNamesArr.push(key);
       }
     }
+
     data.map((item) => {
       for (const [key] of Object.entries(item)) {
         if (!showNamesArr.includes(key)) {
@@ -34,4 +36,21 @@ export class TableSettingsService {
     })
     return data;
   }
+
+//     // TODO: sort by sortType
+//   private sortFields(data: IData[], sortType: string): IData[] {
+//     data.sort((a, b) => {
+//       const nameA = a.age;
+//       const nameB = b.age;
+//       if (nameA < nameB) {
+//         return -1;
+//       }
+//       if (nameA > nameB) {
+//         return 1;
+//       }
+
+//       return 0;
+//     });
+//     return data;
+//   }
 }

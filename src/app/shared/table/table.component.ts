@@ -21,15 +21,20 @@ export class TableComponent implements OnInit {
         Validators.min(START_TABLE_PAGE)
       ]),
   });
-
   public currPage = START_TABLE_PAGE; // TODO: сделать пагинацию
+  public isModalSettingsOpen = false;
 
   public ngOnInit() {
     this.apiService.getData().subscribe((data) => {
       this.data = this.tableSettingsServise.filterByShownConfig(data);
+      console.log(this.data);
       this.pageGoForm.patchValue({
         itemsPerPage: this.data?.length || START_TABLE_PAGE,
       });
     });
+  }
+
+  public openColumnsSettingsModal() {
+    this.isModalSettingsOpen = !this.isModalSettingsOpen;
   }
 }

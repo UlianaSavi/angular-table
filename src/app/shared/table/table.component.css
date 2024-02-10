@@ -8,6 +8,23 @@
 
 .table-header {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-header__open-modal {
+  margin-right: 10px;
+  align-items: flex-end;
+}
+
+.table-header__open-modal__arr {
+  transition: all .2s;
+}
+
+.table-header__open-modal__arr.open {
+  transform: rotate(180deg) translate(-3px, -2px);
+  transition: all .2s;
 }
 
 .table-body {
