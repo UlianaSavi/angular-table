@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { StartPageComponent } from './components/start-page/start-page.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { SharedModule } from './shared/table/shared.module';
+import { SortPipe } from './pipes/sort.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     StartPageComponent,
     MainPageComponent,
+    SortPipe,
   ],
   imports: [
     BrowserModule,

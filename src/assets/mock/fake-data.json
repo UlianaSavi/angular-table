@@ -322,6 +322,7 @@
   {
     "_id": "5fe1933ecbe11baa0f8c4656",
     "isActive": false,
+    "balance": "$1,234.34",
     "picture": "http://placehold.it/32x32",
     "age": 39,
     "name": {
@@ -648,6 +649,7 @@
       "last": "Pennington"
     },
     "company": "CAPSCREEN",
+    "email": "asd.asd@asd.asd",
     "address": "509 Knapp Street, Norfolk, Arizona, 5960",
     "tags": ["aute", "qui", "veniam", "ad", "fugiat"],
     "favoriteFruit": "apple"
@@ -866,6 +868,10 @@
     "balance": "$3,911.37",
     "picture": "http://placehold.it/32x32",
     "age": 25,
+    "name": {
+      "first": "Ania",
+      "last": "Sarki"
+    },
     "company": "FROSNEX",
     "email": "rutledge.snider@frosnex.net",
     "address": "610 Miller Avenue, Oasis, Utah, 8781",
@@ -914,6 +920,7 @@
       "first": "Terrie",
       "last": "Bernard"
     },
+    "company": "ASD",
     "email": "terrie.bernard@zilodyne.co.uk",
     "address": "292 Bushwick Place, Buxton, Kansas, 5301",
     "tags": ["deserunt", "aliquip", "nisi", "proident", "dolore"],

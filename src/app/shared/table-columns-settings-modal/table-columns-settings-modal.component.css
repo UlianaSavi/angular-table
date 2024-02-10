@@ -45,13 +45,14 @@
 
 .names__item__label::before {
   content: '';
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   width: 20px;
   height: 20px;
-  padding: 0px 0px 3px 5px;
+  padding: 2px;
   flex-shrink: 0;
   flex-grow: 0;
-  background-color: var(--lite-grey);
+  background-color: transparent;
   border: 1px solid var(--lite-grey);
   border-radius: 0.25em;
   margin-right: 0.5em;

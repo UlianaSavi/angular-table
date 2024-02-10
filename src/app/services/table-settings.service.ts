@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { IData, IRowsToShow } from "../types";
+import { IData, IRowsToShow, SortTypes } from "../types";
 import { BehaviorSubject } from "rxjs";
 
 @Injectable({
@@ -43,20 +43,13 @@ export class TableSettingsService {
     return dataDeepCopy;
   }
 
-//     // TODO: sort by sortType
-//   private sortFields(data: IData[], sortType: string): IData[] {
-//     data.sort((a, b) => {
-//       const nameA = a.age;
-//       const nameB = b.age;
-//       if (nameA < nameB) {
-//         return -1;
-//       }
-//       if (nameA > nameB) {
-//         return 1;
-//       }
-
-//       return 0;
-//     });
-//     return data;
-//   }
+  public sort(data: IData[], field: string, type: SortTypes): IData[] {
+    const i = field as keyof IData;
+    if(type === SortTypes.DESC) {
+      data.sort((a, b) => (a[i] > b[i] ? -1 : 1))
+    } else {
+      data.sort((a, b) => (a[i] < b[i] ? -1 : 1))
+    }
+    return data;
+  }
 }

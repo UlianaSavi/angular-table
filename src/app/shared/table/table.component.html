@@ -13,7 +13,14 @@
   <div class="table-body">
     <div class="table__names-wrap">
       <div class="table__names" *ngFor="let name of shownColumnNames | keyvalue">
-        <b class="table__names__text" *ngIf="name.value">{{ name.key }}</b>
+        <div class="table__names__inner">
+          <button class="table__names__text" (click)="sort(name.key)" *ngIf="name.value">{{ name.key | uppercase }}</button>
+          <div class="table__names__arrow" [ngClass]="currSortType">&nbsp;&#5169;</div>
+          <input
+            class="table__names__input"
+            type="text"
+            [formControl]="filterInput" placeholder="Filter results...">
+        </div>
       </div>
     </div>
     <div class="table-body__row" *ngFor="let item of data">

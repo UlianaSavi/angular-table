@@ -26,3 +26,9 @@ export interface IRowsToShow {
     tags: boolean,
     favoriteFruit: boolean
 }
+
+export enum SortTypes {
+  DEFAULT = 'default',
+  ASC = 'asc',
+  DESC = 'desc',
+}
