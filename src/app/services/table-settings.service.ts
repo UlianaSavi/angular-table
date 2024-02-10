@@ -5,7 +5,6 @@ import { IData, IRowsToShow } from "../types";
   providedIn: 'root'
 })
 export class TableSettingsService {
-  // TODO: отсортировать финальный обьект, чтобы сперва к примеру шел name и тд. И пусть это зависит от последоватльности в shownColumns
   public shownColumns: IRowsToShow = {
     isActive: true,
     balance: true,
@@ -18,6 +17,10 @@ export class TableSettingsService {
     tags: true,
     favoriteFruit: true,
   };
+
+  public setShownColumns(newShownColumnsArr: IRowsToShow) {
+    this.shownColumns = newShownColumnsArr;
+  }
 
   public filterByShownConfig(data: IData[]): IData[] {
     const showNamesArr: string[] = [];

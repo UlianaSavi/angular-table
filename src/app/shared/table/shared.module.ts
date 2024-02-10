@@ -4,12 +4,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableComponent } from './table.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TableColumnsSettingsModalComponent } from '../table-columns-settings-modal/table-columns-settings-modal.component';
 
 
 
 @NgModule({
   declarations: [
     TableComponent,
+    TableColumnsSettingsModalComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   providers: [],
   exports: [
-    TableComponent
+    TableComponent,
+    TableColumnsSettingsModalComponent
   ],
 })
 export class SharedModule { }
