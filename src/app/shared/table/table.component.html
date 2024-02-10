@@ -1,15 +1,28 @@
 <div class="table container">
   <div class="table-header">
     <h4 class="title">Table</h4>
-    <div class="table-header__names">
-      <!-- TODO: тут должны браться имена из shownRows и сетится в цикле -->
-    </div>
   </div>
   <div class="table-body">
+    <div class="table__names-wrap">
+      <b class="table__names" *ngFor="let name of shownColumnNames | keyvalue">{{ name.key }}</b>
+    </div>
     <div class="table-body__row" *ngFor="let item of data">
       <div class="table-body__row__cell" *ngFor="let row of item | keyvalue">
         <i>{{ row.value }}</i>
       </div>
+    </div>
+  </div>
+  <div class="table-pagination">
+    <form [formGroup]="pageGoForm" class="table-pagination__item">
+      <label for="perPage" class="table-pagination__item__label">Items per page:</label>
+      <input formControlName="itemsPerPage" id="perPage" value="1" type="number" min="1" [max]="this.data?.length || 1">
+    </form>
+    <div class="table-pagination__item">
+      <span>Current page: </span><b>{{ currPage }}</b>
+    </div>
+    <div class="table-pagination__item-buttons">
+      <button class="btn" type="button">prev</button>
+      <button class="btn" type="button">next</button>
     </div>
   </div>
 </div>

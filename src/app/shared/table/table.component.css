@@ -8,7 +8,6 @@
 
 .table-header {
   width: 100%;
-  box-shadow: var(--box-shadow);
 }
 
 .table-body {
@@ -19,11 +18,12 @@
   color: var(--grey);
 }
 
-.table-body__row{
+.table-body__row {
   display: flex;
 }
 
-.table-body__row__cell {
+.table-body__row__cell,
+.table__names {
   width: 200px;
   min-width: 200px;
   border-right: 1px solid var(--lite-grey);
@@ -36,4 +36,29 @@
 .title {
   padding: 10px;
   margin: 0;
+}
+
+.table-pagination {
+  width: 100%;
+  display: flex;
+  gap: 10%;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+}
+
+.table-pagination__item-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.table__names-wrap {
+  display: flex;
+  position: sticky;
+  top: 0px;
+  background: var(--white-simple);
+}
+
+.table-pagination__item__label {
+  margin-right: 10px;
 }

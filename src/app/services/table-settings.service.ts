@@ -4,8 +4,8 @@ import { IData, IRowsToShow } from "../types";
 @Injectable({
   providedIn: 'root'
 })
-export class TableSettings {
-  public shownRows: IRowsToShow = {
+export class TableSettingsService {
+  public shownColumns: IRowsToShow = {
     isActive: true,
     balance: true,
     picture: true,
@@ -20,7 +20,7 @@ export class TableSettings {
 
   public filterByShownConfig(data: IData[]): IData[] {
     const showNamesArr: string[] = [];
-    for (const [key, value] of Object.entries(this.shownRows)) {
+    for (const [key, value] of Object.entries(this.shownColumns)) {
       if (value) {
         showNamesArr.push(key);
       }
