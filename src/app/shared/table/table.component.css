@@ -74,6 +74,10 @@
   background: var(--white-simple);
 }
 
+.table__names:not(:has(.table__names__text)) {
+  display: none;
+}
+
 .table__names-wrap {
   display: flex;
   position: sticky;

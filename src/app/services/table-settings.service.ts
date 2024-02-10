@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
 import { IData, IRowsToShow } from "../types";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TableSettingsService {
-  public shownColumns: IRowsToShow = {
+  private shownColumns: IRowsToShow = {
     isActive: true,
     balance: true,
     picture: true,
@@ -17,27 +18,29 @@ export class TableSettingsService {
     tags: true,
     favoriteFruit: true,
   };
+  public shownColumns$ = new BehaviorSubject<IRowsToShow>(this.shownColumns);
 
   public setShownColumns(newShownColumnsArr: IRowsToShow) {
-    this.shownColumns = newShownColumnsArr;
+    this.shownColumns$.next(newShownColumnsArr);
   }
 
   public filterByShownConfig(data: IData[]): IData[] {
+    const dataDeepCopy = structuredClone(data);
     const showNamesArr: string[] = [];
-    for (const [key, value] of Object.entries(this.shownColumns)) {
+    for (const [key, value] of Object.entries(this.shownColumns$.value)) {
       if (value) {
         showNamesArr.push(key);
       }
     }
 
-    data.map((item) => {
+    dataDeepCopy.map((item) => {
       for (const [key] of Object.entries(item)) {
         if (!showNamesArr.includes(key)) {
           delete item[key as keyof IData];
         }
       }
     })
-    return data;
+    return dataDeepCopy;
   }
 
 //     // TODO: sort by sortType
