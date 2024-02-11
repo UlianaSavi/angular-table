@@ -10,9 +10,9 @@
       (click)="openColumnsSettingsModal()"
       class="btn table-header__open-modal"
       type="text">{{ shownColumnNamesLen }} of {{ shownColumnNamesMaxLen }} columns
-        <b [ngClass]="{'open': isModalSettingsOpen}"
-          class="table-header__open-modal__arr">&nbsp;&#5169;
-        </b>
+      <b [ngClass]="{'open': isModalSettingsOpen}"
+        class="table-header__open-modal__arr">&nbsp;&#5169;
+      </b>
     </button>
   </div>
   <div class="table-body">
@@ -26,7 +26,8 @@
         </div>
       </div>
     </div>
-    <div class="table-body__row" *ngFor="let item of data$ | async">
+    <div class="table-body__row" *ngFor="let item of data$.value | paginate: {
+      itemsPerPage: pageGoForm.controls['itemsPerPage'].value, currentPage: currPage }">
       <div class="table-body__row__cell" *ngFor="let row of item | keyvalue">
         <i>{{ row.value }}</i>
       </div>
@@ -35,15 +36,9 @@
   <div class="table-pagination">
     <form [formGroup]="pageGoForm" class="table-pagination__item">
       <label for="perPage" class="table-pagination__item__label">Items per page:</label>
-      <input formControlName="itemsPerPage" id="perPage" value="1" type="number" min="1" [max]="this.data$.value?.length || 1">
+      <input formControlName="itemsPerPage" id="perPage" value="1" type="number" min="1" [max]="data$.value.length || 1">
     </form>
-    <div class="table-pagination__item">
-      <span>Current page: </span><b>{{ currPage }}</b>
-    </div>
-    <div class="table-pagination__item-buttons">
-      <button class="btn" type="button">prev</button>
-      <button class="btn" type="button">next</button>
-    </div>
+    <pagination-controls (pageChange)="currPage = $event"></pagination-controls>
   </div>
   <app-table-columns-settings-modal [ngClass]="{'open': isModalSettingsOpen}"></app-table-columns-settings-modal>
 </div>

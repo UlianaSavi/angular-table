@@ -153,6 +153,10 @@
     gap: 10px;
   }
 
+  .table-pagination {
+    margin-left: 5px;
+  }
+
   .table__names__input {
     margin-left: 10px;
     max-width: 200px;

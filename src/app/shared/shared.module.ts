@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TableComponent } from './table.component';
+import { TableComponent } from './table/table.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TableColumnsSettingsModalComponent } from '../table-columns-settings-modal/table-columns-settings-modal.component';
+import { TableColumnsSettingsModalComponent } from './table-columns-settings-modal/table-columns-settings-modal.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -18,7 +19,8 @@ import { TableColumnsSettingsModalComponent } from '../table-columns-settings-mo
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   providers: [],
   exports: [

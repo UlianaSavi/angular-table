@@ -14,10 +14,10 @@ import { BehaviorSubject, Subject, debounceTime, distinctUntilChanged } from 'rx
 export class TableComponent implements OnInit {
   constructor (private apiService: ApiService, private tableSettingsServise: TableSettingsService) {}
 
-  public data$ = new BehaviorSubject<IData[] | null>(null);
-  public initialData: IData[] | null = null;
-  private dataWithoutSort: IData[] | null = null;
-  private dataWithoutFilter: IData[] | null = null;
+  public data$ = new BehaviorSubject<IData[]>([]);
+  public initialData: IData[] = [];
+  private dataWithoutSort: IData[] = [];
+  private dataWithoutFilter: IData[] = [];
   private firstFiltering = true;
 
   public currSortType = SortTypes.DEFAULT;
@@ -36,7 +36,7 @@ export class TableComponent implements OnInit {
   });
   public searchInput = new FormControl('', [Validators.minLength(SEARCH_MIN_LEN)]);
   private searchText$ = new Subject<string>();
-  public currPage = START_TABLE_PAGE; // TODO: сделать пагинацию
+  public currPage = START_TABLE_PAGE;
   public isModalSettingsOpen = false;
 
   public ngOnInit() {
@@ -58,7 +58,7 @@ export class TableComponent implements OnInit {
         this.shownColumnNamesMaxLen = Object.keys(this.shownColumnNames).length;
         this.shownColumnNamesLen = Object.values(this.shownColumnNames).filter((item: boolean) => item).length;
       }
-      if (this.initialData) {
+      if (this.initialData.length) {
         this.data$.next(this.tableSettingsServise.filterByShownConfig(this.initialData));
         this.resetTable();
       }
@@ -72,7 +72,7 @@ export class TableComponent implements OnInit {
         this.dataWithoutFilter = structuredClone(this.data$.value); // save data before filtering
         this.firstFiltering = false;
       }
-      if (this.dataWithoutFilter) {
+      if (this.dataWithoutFilter.length) {
         const res = this.tableSettingsServise.filter(this.dataWithoutFilter, searchStr);
         if (res) {
           this.data$.next(res);
@@ -109,7 +109,7 @@ export class TableComponent implements OnInit {
         break;
     }
     this.currSortType = type;
-    if (this.data$.value && this.dataWithoutSort) {
+    if (this.data$.value && this.dataWithoutSort.length) {
       if (type === this.sortTypes.DEFAULT) {
         this.data$.next(structuredClone(this.tableSettingsServise.sort(this.dataWithoutSort, name, type)));
         return;
