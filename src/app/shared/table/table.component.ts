@@ -23,7 +23,11 @@ export class TableComponent implements OnInit {
   public currSortType = SortTypes.DEFAULT;
   public currSortColumn: string | null = null;
   public sortTypes = SortTypes;
+
   public shownColumnNames: IRowsToShow | null = null;
+  public shownColumnNamesMaxLen = 0;
+  public shownColumnNamesLen = 0;
+
   public pageGoForm: FormGroup = new FormGroup({
     itemsPerPage: new FormControl(START_TABLE_PAGE, [
         Validators.max(this.data$.value?.length || START_TABLE_PAGE),
@@ -50,6 +54,10 @@ export class TableComponent implements OnInit {
 
     this.tableSettingsServise.shownColumns$.subscribe((value) => {
       this.shownColumnNames = value;
+      if (this.shownColumnNames) {
+        this.shownColumnNamesMaxLen = Object.keys(this.shownColumnNames).length;
+        this.shownColumnNamesLen = Object.values(this.shownColumnNames).filter((item: boolean) => item).length;
+      }
       if (this.initialData) {
         this.data$.next(this.tableSettingsServise.filterByShownConfig(this.initialData));
         this.resetTable();
