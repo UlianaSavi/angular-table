@@ -55,4 +55,17 @@ export class TableSettingsService {
     }
     return data;
   }
+
+  public filter(data: IData[], searchStr: string): IData[] | null {
+    if (!searchStr.length) {
+      return null;
+    }
+    const res = data.filter((item) => {
+      const test = Object.keys(item).reduce((acc, curr)=>{
+            return acc || String(item[curr as keyof IData]).toLowerCase().includes(searchStr.toLowerCase());
+      }, false);
+      return test;
+    });
+    return res;
+  }
 }

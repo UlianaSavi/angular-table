@@ -3,7 +3,8 @@ import { ApiService } from 'src/app/services/api.service';
 import { IData, IRowsToShow, SortTypes } from 'src/app/types';
 import { TableSettingsService } from '../../services/table-settings.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { START_TABLE_PAGE } from 'src/constants';
+import { SEARCH_MIN_LEN, START_TABLE_PAGE } from 'src/constants';
+import { BehaviorSubject, Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -13,9 +14,12 @@ import { START_TABLE_PAGE } from 'src/constants';
 export class TableComponent implements OnInit {
   constructor (private apiService: ApiService, private tableSettingsServise: TableSettingsService) {}
 
-  public data: IData[] | null = null;
+  // public data: IData[] | null = null;
+  public data$ = new BehaviorSubject<IData[] | null>(null);
   public initialData: IData[] | null = null;
   private dataWithoutSort: IData[] | null = null;
+  private dataFithoutFilter: IData[] | null = null;
+  private firstFiltering = true;
 
   public currSortType = SortTypes.DEFAULT;
   public currSortColumn: string | null = null;
@@ -23,27 +27,49 @@ export class TableComponent implements OnInit {
   public shownColumnNames: IRowsToShow | null = null;
   public pageGoForm: FormGroup = new FormGroup({
     itemsPerPage: new FormControl(START_TABLE_PAGE, [
-        Validators.max(this.data?.length || START_TABLE_PAGE),
+        Validators.max(this.data$.value?.length || START_TABLE_PAGE),
         Validators.min(START_TABLE_PAGE)
       ]),
   });
-  public filterInput = new FormControl('', []);
+  public searchInput = new FormControl('', [Validators.minLength(SEARCH_MIN_LEN)]);
+  private searchText$ = new Subject<string>();
   public currPage = START_TABLE_PAGE; // TODO: сделать пагинацию
   public isModalSettingsOpen = false;
 
   public ngOnInit() {
     this.apiService.getData().subscribe((data) => {
-      this.data = this.tableSettingsServise.filterByShownConfig(data);
-      this.initialData = this.data;
-      this.pageGoForm.patchValue({
-        itemsPerPage: this.data?.length || START_TABLE_PAGE,
+      this.data$.next(this.tableSettingsServise.filterByShownConfig(data));
+      this.initialData = structuredClone(this.data$.value);
+      this.dataWithoutSort = structuredClone(this.data$.value);
+      this.data$.subscribe((data) => {
+        this.pageGoForm.patchValue({
+          itemsPerPage: data?.length || START_TABLE_PAGE,
+        });
       });
     });
 
     this.tableSettingsServise.shownColumns$.subscribe((value) => {
       this.shownColumnNames = value;
       if (this.initialData) {
-        this.data = this.tableSettingsServise.filterByShownConfig(this.initialData);
+        this.data$.next(this.tableSettingsServise.filterByShownConfig(this.initialData));
+      }
+    });
+
+    this.searchText$.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe((searchStr) => {
+      if (this.firstFiltering) {
+        this.dataFithoutFilter = structuredClone(this.data$.value); // save data before filtering
+        this.firstFiltering = false;
+      }
+      if (this.dataFithoutFilter) {
+        const res = this.tableSettingsServise.filter(this.dataFithoutFilter, searchStr);
+        if (res) {
+          this.data$.next(res);
+        } else {
+          this.data$.next(this.dataFithoutFilter); // if nothing found - return initial data without any filtering
+        }
       }
     });
   }
@@ -54,9 +80,6 @@ export class TableComponent implements OnInit {
 
   public sort(name: string) {
     this.currSortColumn = name;
-    if (!this.dataWithoutSort) {
-      this.dataWithoutSort = structuredClone(this.data)
-    }
     let type = this.currSortType;
     switch (this.currSortType) {
       case this.sortTypes.DEFAULT:
@@ -70,12 +93,18 @@ export class TableComponent implements OnInit {
         break;
     }
     this.currSortType = type;
-    if (this.data && this.dataWithoutSort) {
+    if (this.data$.value && this.dataWithoutSort) {
       if (type === this.sortTypes.DEFAULT) {
-        this.data = structuredClone(this.tableSettingsServise.sort(this.dataWithoutSort, name, type));
+        this.data$.next(structuredClone(this.tableSettingsServise.sort(this.dataWithoutSort, name, type)));
         return;
       }
-      this.tableSettingsServise.sort(this.data, name, type);
+      this.tableSettingsServise.sort(this.data$.value, name, type);
+    }
+  }
+
+  public search() {
+    if (this.searchInput.valid) {
+      this.searchText$.next(this.searchInput.value || '');
     }
   }
 }
