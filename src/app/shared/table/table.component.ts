@@ -14,11 +14,10 @@ import { BehaviorSubject, Subject, debounceTime, distinctUntilChanged } from 'rx
 export class TableComponent implements OnInit {
   constructor (private apiService: ApiService, private tableSettingsServise: TableSettingsService) {}
 
-  // public data: IData[] | null = null;
   public data$ = new BehaviorSubject<IData[] | null>(null);
   public initialData: IData[] | null = null;
   private dataWithoutSort: IData[] | null = null;
-  private dataFithoutFilter: IData[] | null = null;
+  private dataWithoutFilter: IData[] | null = null;
   private firstFiltering = true;
 
   public currSortType = SortTypes.DEFAULT;
@@ -41,6 +40,7 @@ export class TableComponent implements OnInit {
       this.data$.next(this.tableSettingsServise.filterByShownConfig(data));
       this.initialData = structuredClone(this.data$.value);
       this.dataWithoutSort = structuredClone(this.data$.value);
+
       this.data$.subscribe((data) => {
         this.pageGoForm.patchValue({
           itemsPerPage: data?.length || START_TABLE_PAGE,
@@ -52,6 +52,7 @@ export class TableComponent implements OnInit {
       this.shownColumnNames = value;
       if (this.initialData) {
         this.data$.next(this.tableSettingsServise.filterByShownConfig(this.initialData));
+        this.resetTable();
       }
     });
 
@@ -60,18 +61,25 @@ export class TableComponent implements OnInit {
       distinctUntilChanged()
     ).subscribe((searchStr) => {
       if (this.firstFiltering) {
-        this.dataFithoutFilter = structuredClone(this.data$.value); // save data before filtering
+        this.dataWithoutFilter = structuredClone(this.data$.value); // save data before filtering
         this.firstFiltering = false;
       }
-      if (this.dataFithoutFilter) {
-        const res = this.tableSettingsServise.filter(this.dataFithoutFilter, searchStr);
+      if (this.dataWithoutFilter) {
+        const res = this.tableSettingsServise.filter(this.dataWithoutFilter, searchStr);
         if (res) {
           this.data$.next(res);
         } else {
-          this.data$.next(this.dataFithoutFilter); // if nothing found - return initial data without any filtering
+          this.data$.next(this.dataWithoutFilter); // if nothing found - return initial data without any filtering
         }
       }
     });
+  }
+
+  private resetTable() {
+    this.firstFiltering = true;
+    this.currSortType = this.sortTypes.DEFAULT;
+    this.searchInput.setValue('');
+    this.searchText$.next('');
   }
 
   public openColumnsSettingsModal() {

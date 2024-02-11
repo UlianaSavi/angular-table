@@ -5,11 +5,11 @@
       class="table__names__input"
       type="text"
       (input)="search()"
-      [formControl]="searchInput" placeholder="Filter results...">
+      [formControl]="searchInput" placeholder="Search...">
     <button
       (click)="openColumnsSettingsModal()"
       class="btn table-header__open-modal"
-      type="text">5 of 5 columns
+      type="text">5 of 5 columns <!-- // TODO: динамические значение -->
         <b [ngClass]="{'open': isModalSettingsOpen}"
           class="table-header__open-modal__arr">&nbsp;&#5169;
         </b>

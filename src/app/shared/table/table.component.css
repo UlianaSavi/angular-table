@@ -49,10 +49,10 @@
 
 .table__names__input {
   width: 100%;
-    max-width: 500px;
-    border-radius: 10px;
-    border: 1px solid var(--lite-grey);
-    padding: 10px;
+  max-width: 500px;
+  border-radius: 10px;
+  border: 1px solid var(--lite-grey);
+  padding: 10px;
 }
 
 .table__names__inner {
@@ -143,5 +143,22 @@
 
   .btn {
     padding: 6px 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .table-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .table__names__input {
+    margin-left: 10px;
+    max-width: 200px;
+  }
+
+  .table-header__open-modal {
+    margin-left: 10px;
   }
 }
